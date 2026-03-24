@@ -27,12 +27,15 @@ public class DriveTrain {
         leftMotor = hardwareMap.get(DcMotorEx.class, "leftMotor");
         leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         rightMotor = hardwareMap.get(DcMotorEx.class, "rightMotor");
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
         throughBoreEncoder = hardwareMap.get(DcMotorEx.class, "throughBore");
         throughBoreEncoder.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

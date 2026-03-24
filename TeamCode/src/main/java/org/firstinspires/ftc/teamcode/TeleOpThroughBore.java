@@ -10,8 +10,8 @@ import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 
 
 @Config
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "emanuelControl")
-public class TeleOp extends CommandOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp Through Bore")
+public class TeleOpThroughBore extends CommandOpMode {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     public GamepadEx gamepadEx;
     public static double currentPosition = 0;
