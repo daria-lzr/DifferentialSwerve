@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -7,11 +7,12 @@ import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
 import com.seattlesolvers.solverslib.controller.PIDController;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
+import org.firstinspires.ftc.teamcode.utils.DriveTrain;
 
 
 @Config
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp Through Bore")
-public class TeleOpThroughBore extends CommandOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp Motor Encoder", group = "OpModes")
+public class TeleOpMotorEncoder extends CommandOpMode {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     public GamepadEx gamepadEx;
     public static double currentPosition = 0;
@@ -20,10 +21,11 @@ public class TeleOpThroughBore extends CommandOpMode {
     public static double dashInput = 0;
 
     public PIDController rotation_pid;
-    public static double p = 0.0009, i = 0.00001, d = 0.000015;
+    public static double p = 0.007, i = 0.001, d = 0.0001;
     private double loopTime = 0;
 
     public double extra_left, extra_right;
+    public double positionLeft, positionRight;
 
 
     public enum DriveState{
@@ -54,15 +56,12 @@ public class TeleOpThroughBore extends CommandOpMode {
         driveTrain.bulkRead();
 
 
-//        driveTrain.leftMotor.setPower(gamepad1.left_stick_y);
-//        driveTrain.rightMotor.setPower(gamepad1.left_stick_y);
-//        double currentPowerLeft = driveTrain.leftMotor.getPower();
-//        double currentPowerRight = driveTrain.rightMotor.getPower();
+        positionLeft = driveTrain.leftMotor.getCurrentPosition();
+        positionRight = driveTrain.rightMotor.getCurrentPosition();
+        currentPosition = (positionLeft - positionRight)/2;
 
-
-        currentPosition = driveTrain.throughBoreEncoder.getCurrentPosition();
         dashInput = -gamepad1.left_stick_x * 90;
-        targetPosition = dashInput * 22.756;
+        targetPosition = dashInput * 3.3334;
         rotation_pid.setPID(p, i, d);
         double difference = rotation_pid.calculate(currentPosition, targetPosition);
 //        if(Math.abs(gamepad1.right_stick_y + difference/2) > 1){

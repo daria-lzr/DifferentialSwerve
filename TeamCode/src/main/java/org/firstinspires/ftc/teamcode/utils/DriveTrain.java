@@ -1,5 +1,4 @@
-package org.firstinspires.ftc.teamcode;
-
+package org.firstinspires.ftc.teamcode.utils;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
