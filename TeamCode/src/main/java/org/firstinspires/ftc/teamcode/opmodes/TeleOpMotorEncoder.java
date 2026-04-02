@@ -20,18 +20,14 @@ public class TeleOpMotorEncoder extends CommandOpMode {
 
     public static double dashInput = 0;
 
-    public PIDController rotation_pid;
-    public static double p = 0.007, i = 0.001, d = 0.0001;
+    public PIDController rotationPID;
+    public static double p_rotation = 0.007, i_rotation = 0.001, d_rotation = 0.0001;
     private double loopTime = 0;
 
     public double extra_left, extra_right;
     public double positionLeft, positionRight;
 
 
-    public enum DriveState{
-        PID,
-        MANUAL
-    }
 
     @Override
     public void initialize() {
@@ -42,8 +38,8 @@ public class TeleOpMotorEncoder extends CommandOpMode {
         driveTrain.initialize();
 
 
-        rotation_pid = new PIDController(p, i, d);
-        rotation_pid.reset();
+        rotationPID = new PIDController(p_rotation, i_rotation, d_rotation);
+        rotationPID.reset();
         currentPosition = driveTrain.throughBoreEncoder.getCurrentPosition();
 
 
@@ -62,8 +58,8 @@ public class TeleOpMotorEncoder extends CommandOpMode {
 
         dashInput = -gamepad1.left_stick_x * 90;
         targetPosition = dashInput * 3.3334;
-        rotation_pid.setPID(p, i, d);
-        double difference = rotation_pid.calculate(currentPosition, targetPosition);
+        rotationPID.setPID(p_rotation, i_rotation, d_rotation);
+        double difference = rotationPID.calculate(currentPosition, targetPosition);
 //        if(Math.abs(gamepad1.right_stick_y + difference/2) > 1){
 //             extra_left = 1 - (gamepad1.right_stick_y + difference/2);
 //        }
@@ -87,4 +83,7 @@ public class TeleOpMotorEncoder extends CommandOpMode {
         loopTime = loop;
         telemetry.update();
     }
+
+
+
 }

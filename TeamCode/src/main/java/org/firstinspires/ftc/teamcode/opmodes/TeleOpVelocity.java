@@ -1,10 +1,11 @@
-package org.firstinspires.ftc.teamcode.tests;
+package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
+import com.seattlesolvers.solverslib.controller.PIDController;
 import com.seattlesolvers.solverslib.controller.PIDFController;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 
@@ -12,19 +13,15 @@ import org.firstinspires.ftc.teamcode.utils.DriveTrain;
 
 
 @Config
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "VelocityPIDFOneMotor", group = "OpModes")
-public class VelocityPIDFOneMotor extends CommandOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOpVelocity", group = "OpModes")
+public class TeleOpVelocity extends CommandOpMode {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     public GamepadEx gamepadEx;
-    public static double currentVelocity_Left = 0;
-    public static double targetVelocity = 0;
-
-    public PIDFController velocityPIDF_Left;
-    public static double p_velocity = 0, i_velocity = 0, d_velocity = 0, f_velocity = 0.00039;
     private double loopTime = 0;
 
 
-    public double currentPositionLeft = 0;
+
+
 
     @Override
     public void initialize() {
@@ -34,11 +31,6 @@ public class VelocityPIDFOneMotor extends CommandOpMode {
         driveTrain.initializeHardware(hardwareMap);
         driveTrain.initialize();
 
-
-        velocityPIDF_Left = new PIDFController(p_velocity, i_velocity, d_velocity, f_velocity);
-        velocityPIDF_Left.reset();
-
-        currentPositionLeft = driveTrain.leftMotor.getCurrentPosition();
     }
 
 
@@ -47,18 +39,24 @@ public class VelocityPIDFOneMotor extends CommandOpMode {
         CommandScheduler.getInstance().run();
         driveTrain.bulkRead();
 
-
-        currentVelocity_Left = driveTrain.leftMotor.getVelocity();
-
-
-        velocityPIDF_Left.setPIDF(p_velocity, i_velocity, d_velocity, f_velocity);
-        double powerLeft = velocityPIDF_Left.calculate(currentVelocity_Left, targetVelocity);
-        powerLeft = Math.max(-1, Math.min(1, powerLeft));
-        driveTrain.leftMotor.setPower(powerLeft);
+        double x = -gamepad1.left_stick_x;
+        double y = gamepad1.right_stick_y;
+        driveTrain.loop(x, y);
 
 
-        telemetry.addData("CurrentVelocityLeft:", currentVelocity_Left);
-        telemetry.addData("Target Velocity:", targetVelocity);
+        telemetry.addData("Current VELOCITY LEFT:", driveTrain.getCurrentVelocityLeft());
+        telemetry.addData("Target VELOCITY LEFT:", driveTrain.getTargetVelocityLeft());
+
+        telemetry.addData("Current VELOCITY RIGHT:", driveTrain.getCurrentVelocityRight());
+        telemetry.addData("Target VELOCITY RIGHT:", driveTrain.getTargetVelocityRight());
+
+
+        telemetry.addData("Current VELOCITY WHEEL:", driveTrain.getCurrentVelocityWheel());
+        telemetry.addData("Target VELOCITY WHEEL:", driveTrain.getTargetVelocityWheel());
+
+
+        telemetry.addData("Current POSITION WHEEL:", driveTrain.getCurrentPositionWheel());
+        telemetry.addData("Target POSITION WHEEL:", driveTrain.getTargetPositionWheel());
 
 
         double loop = System.nanoTime();
