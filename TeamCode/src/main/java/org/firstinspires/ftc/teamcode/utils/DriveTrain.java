@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Range;
 import com.seattlesolvers.solverslib.controller.PIDController;
 import com.seattlesolvers.solverslib.controller.PIDFController;
 
@@ -17,7 +16,8 @@ public class DriveTrain {
     private static DriveTrain instance = null;
     private HardwareMap hardwareMap;
     private List<LynxModule> allHubs;
-    public DcMotorEx leftMotor, rightMotor, throughBoreEncoder;
+    public DcMotorEx leftMotor, rightMotor;
+//    public DcMotorEx throughBoreEncoder;
 
     public static DriveTrain getInstance() {
         if (instance == null) {
@@ -31,9 +31,12 @@ public class DriveTrain {
 
     public PIDFController velocityPIDF_Left;
     public PIDFController velocityPIDF_Right;
-    public static double p_velocity = 0, i_velocity = 0, d_velocity = 0, f_velocity = 0.00039;
-    public PIDController rotationPID;
-    public static double p_rotation = 0, i_rotation = 0, d_rotation = 0;
+    public double p_velocity = 0, i_velocity = 0, d_velocity = 0, f_velocity = 0.000348;
+    public PIDController rotationPID_BIG;
+    public static double p_rotation_BIG = 0.009, i_rotation_BIG = 0.001, d_rotation_BIG = 0.0001;
+
+    public PIDController rotationPID_SMOL;
+    public static double p_rotation_SMOL = 0.0115, i_rotation_SMOL = 0.01, d_rotation_SMOL = 0;
 
     public static double currentPosition = 0;
     public static double targetPosition = 0;
@@ -65,10 +68,10 @@ public class DriveTrain {
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        throughBoreEncoder = hardwareMap.get(DcMotorEx.class, "throughBore");
-        throughBoreEncoder.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        throughBoreEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        throughBoreEncoder.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        throughBoreEncoder = hardwareMap.get(DcMotorEx.class, "throughBore");
+//        throughBoreEncoder.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        throughBoreEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        throughBoreEncoder.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         allHubs = hardwareMap.getAll(LynxModule.class);
@@ -83,8 +86,8 @@ public class DriveTrain {
         velocityPIDF_Left.reset();
         velocityPIDF_Right = new PIDFController(p_velocity, i_velocity, d_velocity, f_velocity);
         velocityPIDF_Right.reset();
-        rotationPID = new PIDController(p_rotation, i_rotation, d_rotation);
-        rotationPID.reset();
+        rotationPID_BIG = new PIDController(p_rotation_BIG, i_rotation_BIG, d_rotation_BIG);
+        rotationPID_BIG.reset();
 
         currentPositionLeft = leftMotor.getCurrentPosition();
         currentPositionRight = rightMotor.getCurrentPosition();
@@ -99,13 +102,17 @@ public class DriveTrain {
 
 
     public void loop(double left_stick_x, double right_stick_y){
-        targetPosition = dashInput * 90 * 3.3334;
+        targetPosition = left_stick_x *90 * 3.7361;
         currentPositionLeft = leftMotor.getCurrentPosition();
         currentPositionRight = rightMotor.getCurrentPosition();
         currentPosition = (currentPositionLeft - currentPositionRight);
 
-        rotationPID.setPID(p_rotation, i_rotation, d_rotation);
-        double velocityDifference = rotationPID.calculate(currentPosition, targetPosition) * MAX_VELOCITY;
+
+        if(Math.abs(currentPosition - targetPosition) <= 30)
+            rotationPID_BIG.setPID(p_rotation_SMOL, i_rotation_SMOL, d_rotation_SMOL);
+        else rotationPID_BIG.setPID(p_rotation_BIG, i_rotation_BIG, d_rotation_BIG);
+
+        double velocityDifference = rotationPID_BIG.calculate(currentPosition, targetPosition) * MAX_VELOCITY;
 
         targetVelocityLeft = right_stick_y * MAX_VELOCITY + velocityDifference;
         targetVelocityRight = right_stick_y * MAX_VELOCITY - velocityDifference;

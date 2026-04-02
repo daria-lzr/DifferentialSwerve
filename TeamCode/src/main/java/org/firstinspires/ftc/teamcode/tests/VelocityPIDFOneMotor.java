@@ -20,7 +20,7 @@ public class VelocityPIDFOneMotor extends CommandOpMode {
     public static double targetVelocity = 0;
 
     public PIDFController velocityPIDF_Left;
-    public static double p_velocity = 0, i_velocity = 0, d_velocity = 0, f_velocity = 0.00039;
+    public static double p_velocity = 0, i_velocity = 0, d_velocity = 0, f_velocity = 0.000348;
     private double loopTime = 0;
 
 

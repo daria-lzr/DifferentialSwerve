@@ -30,7 +30,7 @@ public class PositionTest extends CommandOpMode {
         driveTrain.initializeHardware(hardwareMap);
         driveTrain.initialize();
 
-        currentPosition = driveTrain.throughBoreEncoder.getCurrentPosition();
+//        currentPosition = driveTrain.throughBoreEncoder.getCurrentPosition();
     }
 
 

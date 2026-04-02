@@ -40,7 +40,7 @@ public class TeleOpMotorEncoder extends CommandOpMode {
 
         rotationPID = new PIDController(p_rotation, i_rotation, d_rotation);
         rotationPID.reset();
-        currentPosition = driveTrain.throughBoreEncoder.getCurrentPosition();
+//        currentPosition = driveTrain.throughBoreEncoder.getCurrentPosition();
 
 
     }
