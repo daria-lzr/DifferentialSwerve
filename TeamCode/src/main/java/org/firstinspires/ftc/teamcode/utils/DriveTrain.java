@@ -26,16 +26,14 @@ public class DriveTrain {
         return instance;
     }
 
-    public final double MAX_VELOCITY = 2781;
+    public static double MAX_VELOCITY = 2781;
 
 
     public PIDFController velocityPIDF_Left;
     public PIDFController velocityPIDF_Right;
     public double p_velocity = 0, i_velocity = 0, d_velocity = 0, f_velocity = 0.000348;
-    public PIDController rotationPID_BIG;
+    public PIDController rotationPID;
     public static double p_rotation_BIG = 0.009, i_rotation_BIG = 0.001, d_rotation_BIG = 0.0001;
-
-    public PIDController rotationPID_SMOL;
     public static double p_rotation_SMOL = 0.0115, i_rotation_SMOL = 0.01, d_rotation_SMOL = 0;
 
     public static double currentPosition = 0;
@@ -86,8 +84,8 @@ public class DriveTrain {
         velocityPIDF_Left.reset();
         velocityPIDF_Right = new PIDFController(p_velocity, i_velocity, d_velocity, f_velocity);
         velocityPIDF_Right.reset();
-        rotationPID_BIG = new PIDController(p_rotation_BIG, i_rotation_BIG, d_rotation_BIG);
-        rotationPID_BIG.reset();
+        rotationPID = new PIDController(p_rotation_BIG, i_rotation_BIG, d_rotation_BIG);
+        rotationPID.reset();
 
         currentPositionLeft = leftMotor.getCurrentPosition();
         currentPositionRight = rightMotor.getCurrentPosition();
@@ -102,21 +100,64 @@ public class DriveTrain {
 
 
     public void loop(double left_stick_x, double right_stick_y){
-        targetPosition = left_stick_x *90 * 3.7361;
+        targetPosition = left_stick_x * 90 * 3.7361;
         currentPositionLeft = leftMotor.getCurrentPosition();
         currentPositionRight = rightMotor.getCurrentPosition();
         currentPosition = (currentPositionLeft - currentPositionRight);
 
 
         if(Math.abs(currentPosition - targetPosition) <= 30)
-            rotationPID_BIG.setPID(p_rotation_SMOL, i_rotation_SMOL, d_rotation_SMOL);
-        else rotationPID_BIG.setPID(p_rotation_BIG, i_rotation_BIG, d_rotation_BIG);
+            rotationPID.setPID(p_rotation_SMOL, i_rotation_SMOL, d_rotation_SMOL);
+        else rotationPID.setPID(p_rotation_BIG, i_rotation_BIG, d_rotation_BIG);
 
-        double velocityDifference = rotationPID_BIG.calculate(currentPosition, targetPosition) * MAX_VELOCITY;
+        double velocityDifference = rotationPID.calculate(currentPosition, targetPosition) * MAX_VELOCITY;
+
+
+
+//        if(Math.abs(currentVelocityRight + velocityDifferenceRight) > MAX_VELOCITY){
+//            if(currentVelocityRight + velocityDifferenceRight > 0){
+//                velocityDifferenceLeft += (Math.abs(currentVelocityRight + velocityDifferenceRight) - MAX_VELOCITY);
+//                velocityDifferenceRight -= (Math.abs(currentVelocityRight + velocityDifferenceRight) - MAX_VELOCITY);
+//            }
+//            else{
+//                velocityDifferenceLeft -= (Math.abs(currentVelocityRight + velocityDifferenceRight) - MAX_VELOCITY);
+//                velocityDifferenceRight += (Math.abs(currentVelocityRight + velocityDifferenceRight) - MAX_VELOCITY);
+//            }
+//        }
+//
+//
+//        if(Math.abs(currentVelocityLeft + velocityDifferenceLeft) > MAX_VELOCITY){
+//            if(currentVelocityLeft + velocityDifferenceLeft > 0){
+//                velocityDifferenceLeft -= (Math.abs(currentVelocityLeft + velocityDifferenceLeft) - MAX_VELOCITY);
+//                velocityDifferenceRight += (Math.abs(currentVelocityLeft + velocityDifferenceLeft) - MAX_VELOCITY);
+//            }
+//            else{
+//                velocityDifferenceLeft += (Math.abs(currentVelocityLeft + velocityDifferenceLeft) - MAX_VELOCITY);
+//                velocityDifferenceRight -= (Math.abs(currentVelocityLeft + velocityDifferenceLeft) - MAX_VELOCITY);
+//            }
+//
+//        }
+
+
+
 
         targetVelocityLeft = right_stick_y * MAX_VELOCITY + velocityDifference;
         targetVelocityRight = right_stick_y * MAX_VELOCITY - velocityDifference;
 
+//        if(Math.abs(targetVelocityLeft) > MAX_VELOCITY){
+//            double difference = Math.abs(targetVelocityLeft) - MAX_VELOCITY;
+//            if(targetVelocityRight > 0)
+//                targetVelocityRight -= difference;
+//            else targetVelocityRight += difference;
+//        }
+//
+//        if(Math.abs(targetVelocityRight) > MAX_VELOCITY){
+//            double difference = Math.abs(targetVelocityRight) - MAX_VELOCITY;
+//            if(targetVelocityLeft > 0){
+//                targetVelocityLeft -= difference;
+//            }
+//            else targetVelocityLeft += difference;
+//        }
 
         currentVelocityLeft = leftMotor.getVelocity();
         velocityPIDF_Left.setPIDF(p_velocity, i_velocity, d_velocity, f_velocity);
