@@ -41,8 +41,8 @@ public class TeleOpSimple extends CommandOpMode {
         driveTrain.bulkRead();
 
 
-        driveTrain.leftMotor.setPower(powerLeft);
-        driveTrain.rightMotor.setPower(powerRight);
+//        driveTrain.leftMotor.setPower(powerLeft);
+//        driveTrain.rightMotor.setPower(powerRight);
 
         telemetry.addData("PowerLeft", powerLeft);
         telemetry.addData("PowerRight", powerRight);

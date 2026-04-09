@@ -52,8 +52,8 @@ public class TeleOpMotorEncoder extends CommandOpMode {
         driveTrain.bulkRead();
 
 
-        positionLeft = driveTrain.leftMotor.getCurrentPosition();
-        positionRight = driveTrain.rightMotor.getCurrentPosition();
+        positionLeft = driveTrain.frontRight.getCurrentPosition();
+        positionRight = driveTrain.backRight.getCurrentPosition();
         currentPosition = (positionLeft - positionRight);
 
         dashInput = -gamepad1.left_stick_x * 90;
@@ -68,8 +68,8 @@ public class TeleOpMotorEncoder extends CommandOpMode {
 //            extra_right = 1 - (gamepad1.right_stick_y - difference/2);
 //        }
 //        else extra_right = 0;
-        driveTrain.leftMotor.setPower(gamepad1.right_stick_y + difference/2);
-        driveTrain.rightMotor.setPower(gamepad1.right_stick_y - difference/2);
+        driveTrain.frontRight.setPower(gamepad1.right_stick_y + difference/2);
+        driveTrain.backRight.setPower(gamepad1.right_stick_y - difference/2);
 
 
 

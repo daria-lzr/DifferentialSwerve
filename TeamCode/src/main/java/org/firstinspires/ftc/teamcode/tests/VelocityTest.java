@@ -61,7 +61,7 @@ public class VelocityTest extends CommandOpMode {
 //        velocityPID_Left.reset();
 //        velocityPID_Right.reset();
 
-        currentPositionLeft = driveTrain.leftMotor.getCurrentPosition();
+//        currentPositionLeft = driveTrain.leftMotor.getCurrentPosition();
         currentTime.reset();
     }
 
@@ -73,7 +73,7 @@ public class VelocityTest extends CommandOpMode {
         driveTrain.bulkRead();
 
 
-        currentPositionLeft = driveTrain.leftMotor.getCurrentPosition();
+//        currentPositionLeft = driveTrain.leftMotor.getCurrentPosition();
 //        velocityRight = driveTrain.rightMotor.getVelocity();
 //        currentVelocity = (velocityLeft - velocityRight)/2;
 

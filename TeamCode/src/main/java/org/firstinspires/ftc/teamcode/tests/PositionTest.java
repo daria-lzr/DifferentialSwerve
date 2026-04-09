@@ -39,8 +39,8 @@ public class PositionTest extends CommandOpMode {
         CommandScheduler.getInstance().run();
         driveTrain.bulkRead();
 
-        positionLeft = driveTrain.leftMotor.getCurrentPosition();
-        positionRight = driveTrain.rightMotor.getCurrentPosition();
+//        positionLeft = driveTrain.leftMotor.getCurrentPosition();
+//        positionRight = driveTrain.rightMotor.getCurrentPosition();
         currentPosition = positionLeft - positionRight;
 
         telemetry.addData("CurrentPosition:", currentPosition);

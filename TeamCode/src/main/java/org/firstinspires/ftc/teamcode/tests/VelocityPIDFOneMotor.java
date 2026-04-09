@@ -38,7 +38,7 @@ public class VelocityPIDFOneMotor extends CommandOpMode {
         velocityPIDF_Left = new PIDFController(p_velocity, i_velocity, d_velocity, f_velocity);
         velocityPIDF_Left.reset();
 
-        currentPositionLeft = driveTrain.leftMotor.getCurrentPosition();
+//        currentPositionLeft = driveTrain.leftMotor.getCurrentPosition();
     }
 
 
@@ -48,13 +48,13 @@ public class VelocityPIDFOneMotor extends CommandOpMode {
         driveTrain.bulkRead();
 
 
-        currentVelocity_Left = driveTrain.leftMotor.getVelocity();
-
-
-        velocityPIDF_Left.setPIDF(p_velocity, i_velocity, d_velocity, f_velocity);
-        double powerLeft = velocityPIDF_Left.calculate(currentVelocity_Left, targetVelocity);
-        powerLeft = Math.max(-1, Math.min(1, powerLeft));
-        driveTrain.leftMotor.setPower(powerLeft);
+//        currentVelocity_Left = driveTrain.leftMotor.getVelocity();
+//
+//
+//        velocityPIDF_Left.setPIDF(p_velocity, i_velocity, d_velocity, f_velocity);
+//        double powerLeft = velocityPIDF_Left.calculate(currentVelocity_Left, targetVelocity);
+//        powerLeft = Math.max(-1, Math.min(1, powerLeft));
+//        driveTrain.leftMotor.setPower(powerLeft);
 
 
         telemetry.addData("CurrentVelocityLeft:", currentVelocity_Left);
