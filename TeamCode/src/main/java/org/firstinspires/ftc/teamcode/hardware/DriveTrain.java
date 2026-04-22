@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.utils;
+package org.firstinspires.ftc.teamcode.hardware;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -149,7 +149,7 @@ public class DriveTrain {
 
 
     public void loopRight(double magnitude, double angle){
-        targetPositionRightModule = (angle + 90) * 3.7361;
+        targetPositionRightModule = (angle + 90) * 3.67833333;
         currentPositionBackRight = backRight.getCurrentPosition();
         currentPositionFrontRight = frontRight.getCurrentPosition();
         currentPositionRightModule = (currentPositionBackRight - currentPositionFrontRight);
@@ -182,7 +182,7 @@ public class DriveTrain {
 
 
     public void loopLeft(double magnitude, double angle){
-        targetPositionLeftModule = (angle - 90) * 3.7361;
+        targetPositionLeftModule = (angle - 90) * 3.73388888;
         currentPositionBackLeft = backLeft.getCurrentPosition();
         currentPositionFrontLeft = frontLeft.getCurrentPosition();
         currentPositionLeftModule = (currentPositionBackLeft - currentPositionFrontLeft);

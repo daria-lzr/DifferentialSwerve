@@ -7,7 +7,7 @@ import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
 import com.seattlesolvers.solverslib.controller.PIDController;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
-import org.firstinspires.ftc.teamcode.utils.DriveTrain;
+import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 
 
 @Config

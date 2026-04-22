@@ -8,8 +8,7 @@ import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 
-import org.firstinspires.ftc.teamcode.utils.DriveTrain;
-import org.opencv.core.Mat;
+import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 
 
 @Config
@@ -18,7 +17,6 @@ public class TeleOpVelocity extends CommandOpMode {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     public GamepadEx gamepadEx;
     private double loopTime = 0;
-
 
 
 
@@ -65,10 +63,10 @@ public class TeleOpVelocity extends CommandOpMode {
 //
 //        telemetry.addData("Current VELOCITY WHEEL:", driveTrain.getCurrentVelocityWheel());
 //        telemetry.addData("Target VELOCITY WHEEL:", driveTrain.getTargetVelocityWheel());
-//
-//
-//        telemetry.addData("Current POSITION WHEEL:", driveTrain.getCurrentPositionWheel());
-//        telemetry.addData("Target POSITION WHEEL:", driveTrain.getTargetPositionWheel());
+
+
+        telemetry.addData("Current POSITION WHEEL:", driveTrain.getCurrentPositionWheel());
+        telemetry.addData("Target POSITION WHEEL:", driveTrain.getTargetPositionWheel());
 
         telemetry.addData("TAN:", angle);
         telemetry.addData("x:", x);

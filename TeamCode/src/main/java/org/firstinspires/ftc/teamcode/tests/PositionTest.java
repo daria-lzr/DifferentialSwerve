@@ -7,7 +7,7 @@ import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 
-import org.firstinspires.ftc.teamcode.utils.DriveTrain;
+import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 
 
 @Config
@@ -15,10 +15,11 @@ import org.firstinspires.ftc.teamcode.utils.DriveTrain;
 public class PositionTest extends CommandOpMode {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     public GamepadEx gamepadEx;
-    public double currentPosition = 0;
+    public double currentPositionRight = 0, currentPositionLeft = 0;
     private double loopTime = 0;
 
-    public double positionLeft, positionRight;
+    public double positionFrontLeft, positionBackLeft;
+    public double positionFrontRight, positionBackRight;
 
 
 
@@ -39,11 +40,18 @@ public class PositionTest extends CommandOpMode {
         CommandScheduler.getInstance().run();
         driveTrain.bulkRead();
 
-//        positionLeft = driveTrain.leftMotor.getCurrentPosition();
-//        positionRight = driveTrain.rightMotor.getCurrentPosition();
-        currentPosition = positionLeft - positionRight;
+        positionBackLeft = driveTrain.backLeft.getCurrentPosition();
+        positionFrontLeft = driveTrain.frontLeft.getCurrentPosition();
 
-        telemetry.addData("CurrentPosition:", currentPosition);
+        positionBackRight = driveTrain.backRight.getCurrentPosition();
+        positionFrontRight = driveTrain.frontRight.getCurrentPosition();
+
+
+        currentPositionRight = positionBackRight - positionFrontRight;
+        currentPositionLeft = positionBackLeft - positionFrontLeft;
+
+        telemetry.addData("CurrentPosition RIGHT:", currentPositionRight);
+        telemetry.addData("CurrentPosition LEFT:", currentPositionLeft);
 
         double loop = System.nanoTime();
         telemetry.addData("Hz", 1000000000 / (loop - loopTime));
