@@ -14,6 +14,11 @@ public class Vector2D {
         this(0, 0);
     }
 
+    public void set(double x, double y) {
+        this.x = (x == 0.0) ? 0.0 : x;
+        this.y = (y == 0.0) ? 0.0 : y;
+    }
+
 
 
     public Vector2D add(Vector2D other) {
@@ -54,7 +59,7 @@ public class Vector2D {
 
 
     public double angle() {
-        return Math.atan2(y, x);
+        return Math.toDegrees(Math.atan2(x, y));
     }
 
 
