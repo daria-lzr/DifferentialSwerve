@@ -149,7 +149,7 @@ public class DriveTrain {
 
 
     public void loopRight(double magnitude, double angle){
-        targetPositionRightModule = (angle + 90) * 3.67833333;
+        targetPositionRightModule = angle * 3.67833333;
         currentPositionBackRight = backRight.getCurrentPosition();
         currentPositionFrontRight = frontRight.getCurrentPosition();
         currentPositionRightModule = (currentPositionBackRight - currentPositionFrontRight);
@@ -182,7 +182,7 @@ public class DriveTrain {
 
 
     public void loopLeft(double magnitude, double angle){
-        targetPositionLeftModule = (angle - 90) * 3.73388888;
+        targetPositionLeftModule = angle * 3.73388888;
         currentPositionBackLeft = backLeft.getCurrentPosition();
         currentPositionFrontLeft = frontLeft.getCurrentPosition();
         currentPositionLeftModule = (currentPositionBackLeft - currentPositionFrontLeft);
@@ -213,9 +213,9 @@ public class DriveTrain {
         frontLeft.setPower(powerFrontLeft);
     }
 
-    public void loop(double magnitude, double angle){
-        loopLeft(magnitude, angle);
-        loopRight(magnitude, angle);
+    public void loop(double magnitudeLeft, double magnitudeRight, double angleLeft, double angleRight){
+        loopLeft(magnitudeLeft, angleLeft);
+        loopRight(magnitudeRight, angleRight);
     }
 
 
@@ -269,8 +269,22 @@ public class DriveTrain {
     }
 
 
-    public double getCurrentPositionWheel(){
+    public double getCurrentPositionRightWheel(){
         return currentPositionRightModule;
+    }
+
+    public double getCurrentPositionLeftWheel(){
+        return currentPositionLeftModule;
+    }
+
+
+    public double getCurrentAngleRightWheel(){
+        return (currentPositionRightModule * 360) / 1324.2;
+
+    }
+
+    public double getCurrentAngleLeftWheel(){
+        return (currentPositionLeftModule * 360) / 1344.2;
     }
 
     public double getTargetPositionWheel(){

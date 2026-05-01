@@ -51,7 +51,7 @@ public class TeleOpVelocity extends CommandOpMode {
 
         double magnitude = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
         double angle = Math.toDegrees(Math.atan2(x, y));
-        driveTrain.loop(magnitude, angle);
+//        driveTrain.loop(magnitude, angle);
 
 
 //        telemetry.addData("Current VELOCITY LEFT:", driveTrain.getCurrentVelocityLeft());
@@ -65,7 +65,7 @@ public class TeleOpVelocity extends CommandOpMode {
 //        telemetry.addData("Target VELOCITY WHEEL:", driveTrain.getTargetVelocityWheel());
 
 
-        telemetry.addData("Current POSITION WHEEL:", driveTrain.getCurrentPositionWheel());
+        telemetry.addData("Current POSITION WHEEL:", driveTrain.getCurrentPositionRightWheel());
         telemetry.addData("Target POSITION WHEEL:", driveTrain.getTargetPositionWheel());
 
         telemetry.addData("TAN:", angle);
