@@ -57,8 +57,12 @@ public class Vector2D {
         return normalize().scale(newMag);
     }
 
+    /**
+     * in radians
+     * @return
+     */
     public double angle() {
-        return Math.toDegrees(Math.atan2(y, x));
+        return Math.atan2(y, x);
     }
 
 

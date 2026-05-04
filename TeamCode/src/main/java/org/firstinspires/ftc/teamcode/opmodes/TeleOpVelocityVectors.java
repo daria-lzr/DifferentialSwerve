@@ -42,8 +42,8 @@ public class TeleOpVelocityVectors extends CommandOpMode {
         driveTrain.bulkRead();
 
         strafeVector.set(
-                gamepad1.right_stick_x,
-                gamepad1.right_stick_y
+                gamepad1.right_stick_x/4,
+                gamepad1.right_stick_y/4
         );
 
 
@@ -52,19 +52,19 @@ public class TeleOpVelocityVectors extends CommandOpMode {
         double magnitudeRight = -strafeVector.magnitude();
 
 
-        double newAngleLeft = strafeVector.angle(); //-90
-        double newAngleRight = strafeVector.angle();//+90
+        double newAngleLeft = strafeVector.angle();
+        double newAngleRight = strafeVector.angle();
 
         //shortest angular difference
-        double deltaLeft = Math.toDegrees(Math.atan2(
-                Math.sin(Math.toRadians(newAngleLeft - previousAngleLeft)),
-                Math.cos(Math.toRadians(newAngleLeft - previousAngleLeft))
-        ));
+        double deltaLeft = Math.atan2(
+                Math.sin(newAngleLeft - previousAngleLeft),
+                Math.cos(newAngleLeft - previousAngleLeft)
+        );
 
-        double deltaRight = Math.toDegrees(Math.atan2(
-                Math.sin(Math.toRadians(newAngleRight - previousAngleRight)),
-                Math.cos(Math.toRadians(newAngleRight - previousAngleRight))
-        ));
+        double deltaRight = Math.atan2(
+                Math.sin(newAngleRight - previousAngleRight),
+                Math.cos(newAngleRight - previousAngleRight)
+        );
 
         //accumulate
         continuousAngleLeft += deltaLeft;
@@ -75,16 +75,6 @@ public class TeleOpVelocityVectors extends CommandOpMode {
 
         driveTrain.loop(magnitudeLeft, magnitudeRight, continuousAngleLeft, continuousAngleRight);
 
-
-//        double currentAngleLeft = driveTrain.getCurrentAngleLeftWheel();
-//        double currentAngleRight = driveTrain.getCurrentAngleRightWheel();
-//
-//        double angleErrorLeft = Math.toRadians(targetAngleLeft - currentAngleLeft);
-//        double angleErrorRight = Math.toRadians(targetAngleRight - currentAngleRight);
-//
-//        double normalizedAngleLeft = Math.toDegrees(Math.atan2(Math.cos(angleErrorLeft), Math.sin(angleErrorLeft))) - 90;
-//        double normalizedAngleRight = Math.toDegrees(Math.atan2(Math.cos(angleErrorRight), Math.sin(angleErrorRight))) + 90;
-//        driveTrain.loop(magnitude, normalizedAngleLeft, normalizedAngleRight);
 
 
 //        telemetry.addData("Current VELOCITY LEFT:", driveTrain.getCurrentVelocityLeft());
@@ -109,6 +99,7 @@ public class TeleOpVelocityVectors extends CommandOpMode {
 
 
 //        telemetry.addData("TAN:", angle);
+        telemetry.addData("Angle Stafe Vector", Math.toDegrees(strafeVector.angle()));
         telemetry.addData("x:", strafeVector.x);
         telemetry.addData("y:", strafeVector.y);
 

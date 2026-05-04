@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.controller.PIDController;
 import com.seattlesolvers.solverslib.controller.PIDFController;
 
+import org.firstinspires.ftc.teamcode.utils.Constants;
+
 import java.util.List;
 
 
@@ -26,7 +28,7 @@ public class DriveTrain {
         return instance;
     }
 
-    public static double MAX_VELOCITY = 2781;
+
 
 
     public PIDFController velocityPIDF_BackRight;
@@ -149,22 +151,22 @@ public class DriveTrain {
 
 
     public void loopRight(double magnitude, double angle){
-        targetPositionRightModule = angle * 3.67833333;
+        targetPositionRightModule = angle * Constants.DEGREES_TO_TICKS_CONSTANT_RIGHT;
         currentPositionBackRight = backRight.getCurrentPosition();
         currentPositionFrontRight = frontRight.getCurrentPosition();
         currentPositionRightModule = (currentPositionBackRight - currentPositionFrontRight);
 
 
-        if(Math.abs(currentPositionRightModule - targetPositionRightModule) <= 30)
+        if(Math.abs(currentPositionRightModule - targetPositionRightModule) <= Math.PI/6)
             rotationPID_RightModule.setPID(p_rotation_SMOL, i_rotation_SMOL, d_rotation_SMOL);
         else rotationPID_RightModule.setPID(p_rotation_BIG, i_rotation_BIG, d_rotation_BIG);
 
-        double velocityDifference = rotationPID_RightModule.calculate(currentPositionRightModule, targetPositionRightModule) * MAX_VELOCITY;
+        double velocityDifference = rotationPID_RightModule.calculate(currentPositionRightModule, targetPositionRightModule) * Constants.MAX_VELOCITY;
 
 
 
-        targetVelocityBackRight = magnitude * MAX_VELOCITY + velocityDifference;
-        targetVelocityFrontRight = magnitude * MAX_VELOCITY - velocityDifference;
+        targetVelocityBackRight = magnitude * Constants.MAX_VELOCITY + velocityDifference;
+        targetVelocityFrontRight = magnitude * Constants.MAX_VELOCITY - velocityDifference;
 
 
         currentVelocityBackRight = backRight.getVelocity();
@@ -182,22 +184,22 @@ public class DriveTrain {
 
 
     public void loopLeft(double magnitude, double angle){
-        targetPositionLeftModule = angle * 3.73388888;
+        targetPositionLeftModule = angle * Constants.DEGREES_TO_TICKS_CONSTANT_LEFT;
         currentPositionBackLeft = backLeft.getCurrentPosition();
         currentPositionFrontLeft = frontLeft.getCurrentPosition();
         currentPositionLeftModule = (currentPositionBackLeft - currentPositionFrontLeft);
 
 
-        if(Math.abs(currentPositionLeftModule - targetPositionLeftModule) <= 30)
+        if(Math.abs(currentPositionLeftModule - targetPositionLeftModule) <= Math.PI/6)
             rotationPID_LeftModule.setPID(p_rotation_SMOL, i_rotation_SMOL, d_rotation_SMOL);
         else rotationPID_LeftModule.setPID(p_rotation_BIG, i_rotation_BIG, d_rotation_BIG);
 
-        double velocityDifference = rotationPID_LeftModule.calculate(currentPositionLeftModule, targetPositionLeftModule) * MAX_VELOCITY;
+        double velocityDifference = rotationPID_LeftModule.calculate(currentPositionLeftModule, targetPositionLeftModule) * Constants.MAX_VELOCITY;
 
 
 
-        targetVelocityBackLeft = -magnitude * MAX_VELOCITY + velocityDifference;
-        targetVelocityFrontLeft = -magnitude * MAX_VELOCITY - velocityDifference;
+        targetVelocityBackLeft = -magnitude * Constants.MAX_VELOCITY + velocityDifference;
+        targetVelocityFrontLeft = -magnitude * Constants.MAX_VELOCITY - velocityDifference;
 
 
         currentVelocityBackLeft = backLeft.getVelocity();
@@ -270,21 +272,21 @@ public class DriveTrain {
 
 
     public double getCurrentPositionRightWheel(){
-        return currentPositionRightModule;
+        return currentPositionRightModule;//in ticks
     }
 
     public double getCurrentPositionLeftWheel(){
-        return currentPositionLeftModule;
+        return currentPositionLeftModule;//in ticks
     }
 
 
     public double getCurrentAngleRightWheel(){
-        return (currentPositionRightModule * 360) / 1324.2;
+        return (Math.toDegrees(currentPositionRightModule) * 360) / 1324.2;
 
     }
 
     public double getCurrentAngleLeftWheel(){
-        return (currentPositionLeftModule * 360) / 1344.2;
+        return (Math.toDegrees(currentPositionLeftModule) * 360) / 1344.2;
     }
 
     public double getTargetPositionWheel(){
