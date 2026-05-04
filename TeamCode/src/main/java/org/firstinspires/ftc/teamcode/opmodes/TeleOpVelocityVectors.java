@@ -21,6 +21,14 @@ public class TeleOpVelocityVectors extends CommandOpMode {
 
     Vector2D strafeVector = new Vector2D();
 
+    Vector2D rotationDirectionLeft = new Vector2D(0, 36.2).normalize();
+    Vector2D rotationDirectionRight = new Vector2D(0, -36.2).normalize();
+    Vector2D rotationVectorLeft = new Vector2D();
+    Vector2D rotationVectorRight = new Vector2D();
+
+    Vector2D finalVectorLeft = new Vector2D();
+    Vector2D finalVectorRight = new Vector2D();
+
     private double previousAngleLeft = 0.0, previousAngleRight = 0.0;
     private double continuousAngleLeft = 0.0, continuousAngleRight = 0.0;
 
@@ -47,13 +55,26 @@ public class TeleOpVelocityVectors extends CommandOpMode {
         );
 
 
+        double rotationInput = gamepad1.left_stick_x/4;
+        if(gamepad1.left_stick_x == 0) {
+            rotationInput = 0;
+        }
 
-        double magnitudeLeft = strafeVector.magnitude();
-        double magnitudeRight = -strafeVector.magnitude();
+        rotationVectorLeft = rotationDirectionLeft.scale(rotationInput);
+        finalVectorLeft = strafeVector.add(rotationVectorLeft);
+
+        rotationVectorRight = rotationDirectionRight.scale(rotationInput);
+        finalVectorRight = strafeVector.add(rotationVectorRight);
 
 
-        double newAngleLeft = strafeVector.angle();
-        double newAngleRight = strafeVector.angle();
+
+
+        double magnitudeLeft = finalVectorLeft.magnitude();
+        double magnitudeRight = -finalVectorRight.magnitude();
+
+
+        double newAngleLeft = finalVectorLeft.angle();
+        double newAngleRight = finalVectorRight.angle();
 
         //shortest angular difference
         double deltaLeft = Math.atan2(
