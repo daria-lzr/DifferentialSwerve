@@ -55,7 +55,7 @@ public class TeleOpVelocityVectors extends CommandOpMode {
         );
 
 
-        double rotationInput = gamepad1.left_stick_x/4;
+        double rotationInput = gamepad1.left_stick_x;
         if(gamepad1.left_stick_x == 0) {
             rotationInput = 0;
         }
