@@ -50,8 +50,8 @@ public class TeleOpVelocityVectors extends CommandOpMode {
         driveTrain.bulkRead();
 
         strafeVector.set(
-                gamepad1.right_stick_x/4,
-                gamepad1.right_stick_y/4
+                gamepad1.right_stick_x,
+                gamepad1.right_stick_y
         );
 
 

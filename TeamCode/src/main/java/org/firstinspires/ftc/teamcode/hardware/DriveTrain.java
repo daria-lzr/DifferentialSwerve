@@ -74,7 +74,7 @@ public class DriveTrain {
 
     public static double dashInput = 0;
 
-
+    //the config on the DriverStation: Diffy Swerve Chassis
     public void initializeHardware(final HardwareMap hardwareMap){
         this.hardwareMap = hardwareMap;
         frontLeft = hardwareMap.get(DcMotorEx.class, "frontLeft");
